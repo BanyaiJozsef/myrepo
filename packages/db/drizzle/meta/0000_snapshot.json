@@ -1,0 +1,1054 @@
+{
+  "id": "4f3243ca-1d26-46ac-a896-b22635d48e20",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.alkatreszek": {
+      "name": "alkatreszek",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cikkszam": {
+          "name": "cikkszam",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "megnevezes": {
+          "name": "megnevezes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "beszerzesi_ar": {
+          "name": "beszerzesi_ar",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "eladasi_ar": {
+          "name": "eladasi_ar",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "keszlet_mennyiseg": {
+          "name": "keszlet_mennyiseg",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "alkatreszek_tenant_id_tenants_id_fk": {
+          "name": "alkatreszek_tenant_id_tenants_id_fk",
+          "tableFrom": "alkatreszek",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ertesitesek": {
+      "name": "ertesitesek",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ugyfel_id": {
+          "name": "ugyfel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "csatorna": {
+          "name": "csatorna",
+          "type": "ertesites_csatorna",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kuldve": {
+          "name": "kuldve",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "statusz": {
+          "name": "statusz",
+          "type": "ertesites_statusz",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'naplozva'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ertesitesek_tenant_id_tenants_id_fk": {
+          "name": "ertesitesek_tenant_id_tenants_id_fk",
+          "tableFrom": "ertesitesek",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "ertesitesek_ugyfel_id_ugyfelek_id_fk": {
+          "name": "ertesitesek_ugyfel_id_ugyfelek_id_fk",
+          "tableFrom": "ertesitesek",
+          "tableTo": "ugyfelek",
+          "columnsFrom": [
+            "ugyfel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.felhasznalok": {
+      "name": "felhasznalok",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nev": {
+          "name": "nev",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jelszo_hash": {
+          "name": "jelszo_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "szerep": {
+          "name": "szerep",
+          "type": "felhasznalo_szerep",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'recepcio'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "felhasznalok_tenant_id_tenants_id_fk": {
+          "name": "felhasznalok_tenant_id_tenants_id_fk",
+          "tableFrom": "felhasznalok",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "felhasznalok_email_unique": {
+          "name": "felhasznalok_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.idopontok": {
+      "name": "idopontok",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jarmu_id": {
+          "name": "jarmu_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ugyfel_id": {
+          "name": "ugyfel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "idopont": {
+          "name": "idopont",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "idopont_tipus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'foglalas'"
+        },
+        "statusz": {
+          "name": "statusz",
+          "type": "idopont_statusz",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'fuggoben'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "idopontok_tenant_id_tenants_id_fk": {
+          "name": "idopontok_tenant_id_tenants_id_fk",
+          "tableFrom": "idopontok",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "idopontok_jarmu_id_jarmuvek_id_fk": {
+          "name": "idopontok_jarmu_id_jarmuvek_id_fk",
+          "tableFrom": "idopontok",
+          "tableTo": "jarmuvek",
+          "columnsFrom": [
+            "jarmu_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "idopontok_ugyfel_id_ugyfelek_id_fk": {
+          "name": "idopontok_ugyfel_id_ugyfelek_id_fk",
+          "tableFrom": "idopontok",
+          "tableTo": "ugyfelek",
+          "columnsFrom": [
+            "ugyfel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.jarmuvek": {
+      "name": "jarmuvek",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ugyfel_id": {
+          "name": "ugyfel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rendszam": {
+          "name": "rendszam",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alvazszam": {
+          "name": "alvazszam",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gyartmany": {
+          "name": "gyartmany",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "evjarat": {
+          "name": "evjarat",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "km_ora": {
+          "name": "km_ora",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "muszaki_lejarat": {
+          "name": "muszaki_lejarat",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "jarmuvek_tenant_id_tenants_id_fk": {
+          "name": "jarmuvek_tenant_id_tenants_id_fk",
+          "tableFrom": "jarmuvek",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "jarmuvek_ugyfel_id_ugyfelek_id_fk": {
+          "name": "jarmuvek_ugyfel_id_ugyfelek_id_fk",
+          "tableFrom": "jarmuvek",
+          "tableTo": "ugyfelek",
+          "columnsFrom": [
+            "ugyfel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.licenses": {
+      "name": "licenses",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "license_key_hash": {
+          "name": "license_key_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "plan": {
+          "name": "plan",
+          "type": "license_plan",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "features": {
+          "name": "features",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "kiadva": {
+          "name": "kiadva",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lejar": {
+          "name": "lejar",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "aktivalva": {
+          "name": "aktivalva",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "licenses_tenant_id_tenants_id_fk": {
+          "name": "licenses_tenant_id_tenants_id_fk",
+          "tableFrom": "licenses",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.munkalap_tetelek": {
+      "name": "munkalap_tetelek",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "munkalap_id": {
+          "name": "munkalap_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "munkalap_tetel_tipus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "megnevezes": {
+          "name": "megnevezes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mennyiseg": {
+          "name": "mennyiseg",
+          "type": "numeric(10, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "egysegar": {
+          "name": "egysegar",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "afa_kulcs": {
+          "name": "afa_kulcs",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "munkalap_tetelek_munkalap_id_munkalapok_id_fk": {
+          "name": "munkalap_tetelek_munkalap_id_munkalapok_id_fk",
+          "tableFrom": "munkalap_tetelek",
+          "tableTo": "munkalapok",
+          "columnsFrom": [
+            "munkalap_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.munkalapok": {
+      "name": "munkalapok",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "jarmu_id": {
+          "name": "jarmu_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ugyfel_id": {
+          "name": "ugyfel_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "statusz": {
+          "name": "statusz",
+          "type": "munkalap_statusz",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'felvett'"
+        },
+        "felvetel_datum": {
+          "name": "felvetel_datum",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "hibaleiras": {
+          "name": "hibaleiras",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "szerelo_id": {
+          "name": "szerelo_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "munkalap_tipus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'munka'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "munkalapok_tenant_id_tenants_id_fk": {
+          "name": "munkalapok_tenant_id_tenants_id_fk",
+          "tableFrom": "munkalapok",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "munkalapok_jarmu_id_jarmuvek_id_fk": {
+          "name": "munkalapok_jarmu_id_jarmuvek_id_fk",
+          "tableFrom": "munkalapok",
+          "tableTo": "jarmuvek",
+          "columnsFrom": [
+            "jarmu_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "munkalapok_ugyfel_id_ugyfelek_id_fk": {
+          "name": "munkalapok_ugyfel_id_ugyfelek_id_fk",
+          "tableFrom": "munkalapok",
+          "tableTo": "ugyfelek",
+          "columnsFrom": [
+            "ugyfel_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "munkalapok_szerelo_id_felhasznalok_id_fk": {
+          "name": "munkalapok_szerelo_id_felhasznalok_id_fk",
+          "tableFrom": "munkalapok",
+          "tableTo": "felhasznalok",
+          "columnsFrom": [
+            "szerelo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.szamlak": {
+      "name": "szamlak",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "munkalap_id": {
+          "name": "munkalap_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kulso_szamla_id": {
+          "name": "kulso_szamla_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "szamlaszam": {
+          "name": "szamlaszam",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "brutto": {
+          "name": "brutto",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "afa": {
+          "name": "afa",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "fizetve": {
+          "name": "fizetve",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "kelt": {
+          "name": "kelt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "szamlak_tenant_id_tenants_id_fk": {
+          "name": "szamlak_tenant_id_tenants_id_fk",
+          "tableFrom": "szamlak",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "szamlak_munkalap_id_munkalapok_id_fk": {
+          "name": "szamlak_munkalap_id_munkalapok_id_fk",
+          "tableFrom": "szamlak",
+          "tableTo": "munkalapok",
+          "columnsFrom": [
+            "munkalap_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.tenants": {
+      "name": "tenants",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "nev": {
+          "name": "nev",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "allapot": {
+          "name": "allapot",
+          "type": "tenant_allapot",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'demo'"
+        },
+        "letrehozva": {
+          "name": "letrehozva",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ugyfelek": {
+      "name": "ugyfelek",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tenant_id": {
+          "name": "tenant_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nev": {
+          "name": "nev",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tipus": {
+          "name": "tipus",
+          "type": "ugyfel_tipus",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'maganszemely'"
+        },
+        "adoszam": {
+          "name": "adoszam",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cim": {
+          "name": "cim",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "telefon": {
+          "name": "telefon",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "gdpr_hozzajarulas": {
+          "name": "gdpr_hozzajarulas",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "letrehozva": {
+          "name": "letrehozva",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "ugyfelek_tenant_id_tenants_id_fk": {
+          "name": "ugyfelek_tenant_id_tenants_id_fk",
+          "tableFrom": "ugyfelek",
+          "tableTo": "tenants",
+          "columnsFrom": [
+            "tenant_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "public.ertesites_csatorna": {
+      "name": "ertesites_csatorna",
+      "schema": "public",
+      "values": [
+        "sms",
+        "email"
+      ]
+    },
+    "public.ertesites_statusz": {
+      "name": "ertesites_statusz",
+      "schema": "public",
+      "values": [
+        "naplozva",
+        "kikuldve",
+        "sikertelen"
+      ]
+    },
+    "public.felhasznalo_szerep": {
+      "name": "felhasznalo_szerep",
+      "schema": "public",
+      "values": [
+        "tulaj",
+        "recepcio",
+        "szerelo"
+      ]
+    },
+    "public.idopont_statusz": {
+      "name": "idopont_statusz",
+      "schema": "public",
+      "values": [
+        "fuggoben",
+        "megerositve",
+        "lemondva",
+        "megtortent"
+      ]
+    },
+    "public.idopont_tipus": {
+      "name": "idopont_tipus",
+      "schema": "public",
+      "values": [
+        "foglalas",
+        "emlekezteto"
+      ]
+    },
+    "public.license_plan": {
+      "name": "license_plan",
+      "schema": "public",
+      "values": [
+        "starter",
+        "pro",
+        "enterprise"
+      ]
+    },
+    "public.munkalap_statusz": {
+      "name": "munkalap_statusz",
+      "schema": "public",
+      "values": [
+        "felvett",
+        "folyamatban",
+        "kesz",
+        "lezart"
+      ]
+    },
+    "public.munkalap_tetel_tipus": {
+      "name": "munkalap_tetel_tipus",
+      "schema": "public",
+      "values": [
+        "munka",
+        "alkatresz"
+      ]
+    },
+    "public.munkalap_tipus": {
+      "name": "munkalap_tipus",
+      "schema": "public",
+      "values": [
+        "arajanlat",
+        "munka"
+      ]
+    },
+    "public.tenant_allapot": {
+      "name": "tenant_allapot",
+      "schema": "public",
+      "values": [
+        "demo",
+        "aktiv",
+        "lejart"
+      ]
+    },
+    "public.ugyfel_tipus": {
+      "name": "ugyfel_tipus",
+      "schema": "public",
+      "values": [
+        "maganszemely",
+        "ceg"
+      ]
+    }
+  },
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
