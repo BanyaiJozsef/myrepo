@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DATABASE_URL: postgresql://autoszerv:autoszerv@localhost:5432/autoszerv
+  JWT_ACCESS_SECRET: ci-access-secret-not-for-production-use-only
+  JWT_REFRESH_SECRET: ci-refresh-secret-not-for-production-use-only
+  # Test-only Ed25519 keypair (see apps/web/playwright.config.ts) — never a real license key.
+  LICENSE_PUBLIC_KEY: MCowBQYDK2VwAyEAleaFh9oA5hYKtEnqvkAp6jQbwl9wXOvAaCFmRYNJC3c
+  INVOICE_PROVIDER: mock
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: autoszerv
+          POSTGRES_PASSWORD: autoszerv
+          POSTGRES_DB: autoszerv
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U autoszerv"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Build
+        run: pnpm build
+
+      - name: Run database migrations
+        run: node packages/db/dist/migrate.js
+
+      - name: Unit + integration tests (with coverage)
+        run: pnpm test
+
+      - name: Install Playwright browsers
+        run: pnpm --filter @autoszerv/web exec playwright install --with-deps chromium
+
+      # E2E runs against its own throwaway database (playwright.config.ts's webServer
+      # migrates + seeds it fresh), kept separate from the smoke-tested DB above so
+      # repeated local/CI runs never collide with leftover seed data.
+      - name: Create E2E database
+        run: PGPASSWORD=autoszerv psql -h localhost -U autoszerv -d autoszerv -c "CREATE DATABASE autoszerv_e2e;"
+
+      - name: E2E tests
+        env:
+          CI: "true"
+          E2E_DATABASE_URL: postgresql://autoszerv:autoszerv@localhost:5432/autoszerv_e2e
+        run: pnpm --filter @autoszerv/web test:e2e
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/web/playwright-report/
+          retention-days: 14
+
+  docker-build:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build API image
+        run: docker build -f apps/api/Dockerfile -t autoszerv-api:ci .
+
+      - name: Build web image
+        run: docker build -f apps/web/Dockerfile -t autoszerv-web:ci .
