@@ -94,6 +94,16 @@ Az E2E-hez egy különálló, csak tesztelésre szánt Ed25519 kulcspár tartozi
 (`apps/web/playwright.config.ts`), amivel a teszt aláírja a licenckulcsot — ez soha nem
 kerül éles használatba.
 
+Az E2E egy külön, eldobható `autoszerv_e2e` adatbázis ellen fut (nem a fejlesztői
+`autoszerv` ellen), hogy ismételt futtatások ne ütközzenek a korábbi seed-adatokkal. Első
+helyi futtatás előtt hozd létre:
+
+```bash
+createdb -h localhost -U autoszerv autoszerv_e2e
+```
+
+A CI-ban ezt egy külön lépés hozza létre minden futtatáskor.
+
 Ebben a fejlesztői környezetben a CRUD végpontok (ügyfelek/járművek/munkalapok) és a teljes
 regisztráció → licenc-aktiválás folyamat valódi helyi Postgres ellen manuálisan és a
 Playwright-tesztekkel is le lett futtatva és ellenőrizve — ez fedezte fel és javította ki
