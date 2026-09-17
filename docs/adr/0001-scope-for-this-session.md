@@ -63,6 +63,15 @@ This caught and fixed four real bugs that unit tests alone would not have caught
   around. The `docker-build` job in `.github/workflows/ci.yml` builds both images on every
   push, gated behind the rest of CI passing, so this gets real verification (and the
   <200MB budget gets a real number) the first time CI runs, not before.
+
+  That first real CI run did catch a genuine bug: `apps/api/Dockerfile`'s
+  `pnpm deploy --filter @autoszerv/api --prod` failed with
+  `ERR_PNPM_DEPLOY_NONINJECTED_WORKSPACE`, because pnpm v10 defaults to symlinked
+  workspace dependencies, which a deploy folder copied into its own runtime image can't
+  resolve. Fixed by adding `--config.inject-workspace-packages=true`; reproduced and
+  verified the whole install → build → deploy → module-resolution chain locally with
+  plain `pnpm` commands (no Docker needed, since the bug was in pnpm's own deploy
+  behavior, not anything Docker-specific) before pushing.
 - **SMS/e-mail reminders**: the `ertesitesek` table and demo-mode "logged but not sent"
   behavior exist in the schema, but no SMS/e-mail provider adapter was built — the brief
   marks this "v1.1 / important, not core v1", and it was deprioritized in favor of getting

@@ -20,7 +20,10 @@ COPY packages/invoice-provider packages/invoice-provider
 COPY packages/license packages/license
 COPY apps/api apps/api
 RUN pnpm --filter @autoszerv/api... build
-RUN pnpm deploy --filter @autoszerv/api --prod /repo/out
+# pnpm v10 defaults to symlinked workspace deps, which a standalone deploy folder
+# (copied into its own runtime image below) can't resolve; inject-workspace-packages
+# makes `pnpm deploy` copy the real @autoszerv/* packages in instead.
+RUN pnpm deploy --filter @autoszerv/api --prod --config.inject-workspace-packages=true /repo/out
 
 FROM node:20-alpine AS runtime
 ENV NODE_ENV=production
