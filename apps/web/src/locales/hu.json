@@ -1,0 +1,63 @@
+{
+  "app": { "cim": "Autószerv" },
+  "nav": {
+    "ugyfelek": "Ügyfelek",
+    "jarmuvek": "Járművek",
+    "munkalapok": "Munkalapok",
+    "beallitasok": "Beállítások",
+    "kijelentkezes": "Kijelentkezés"
+  },
+  "login": {
+    "cim": "Bejelentkezés",
+    "email": "E-mail cím",
+    "jelszo": "Jelszó",
+    "gomb": "Bejelentkezés",
+    "hiba": "Hibás e-mail cím vagy jelszó."
+  },
+  "ugyfelek": {
+    "cim": "Ügyfelek",
+    "uj": "Új ügyfél",
+    "nev": "Név",
+    "telefon": "Telefon",
+    "email": "E-mail",
+    "ures": "Még nincs felvéve egyetlen ügyfél sem. Kattints az „Új ügyfél” gombra a kezdéshez.",
+    "demoLimit": "Elérted a demó módban engedélyezett ügyfélszámot. Frissíts az élesítéshez a Beállítások menüben."
+  },
+  "jarmuvek": {
+    "cim": "Járművek",
+    "uj": "Új jármű",
+    "rendszam": "Rendszám",
+    "gyartmanyTipus": "Gyártmány / típus",
+    "ures": "Ehhez az ügyfélhez még nincs jármű felvéve."
+  },
+  "munkalapok": {
+    "cim": "Munkalapok",
+    "uj": "Új munkalap",
+    "statusz": {
+      "felvett": "Felvett",
+      "folyamatban": "Folyamatban",
+      "kesz": "Kész",
+      "lezart": "Lezárt"
+    },
+    "ures": "Nincs megjeleníthető munkalap."
+  },
+  "beallitasok": {
+    "cim": "Beállítások",
+    "licenc": {
+      "cim": "Licenc",
+      "allapotDemo": "Demó mód",
+      "allapotAktiv": "Aktív licenc",
+      "allapotLejart": "Lejárt licenc – csak olvasható mód",
+      "kulcs": "Licenckulcs",
+      "aktivalas": "Aktiválás",
+      "sikeres": "A licenc sikeresen aktiválva!"
+    }
+  },
+  "kozos": {
+    "betoltes": "Betöltés…",
+    "mentes": "Mentés",
+    "megse": "Mégse",
+    "torles": "Törlés",
+    "szerkesztes": "Szerkesztés"
+  }
+}
